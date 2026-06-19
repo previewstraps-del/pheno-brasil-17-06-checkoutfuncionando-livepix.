@@ -594,7 +594,14 @@ nav { background: #070707; border-bottom: 1px solid var(--border); border-top: 3
       if (roles.length === 1) update.role = roles[0];
       else if (roles.length === 0) update.role = null;
       else update.role = 'breeder'; // dual — primary é breeder
- 
+
+      
+// 🔥 A SOLUÇÃO: Usar setDoc com merge em ambas as coleções
+      // Isso evita o erro de "documento não existe" e sincroniza o banco
+      await setDoc(doc(db, "users", uid), update, { merge: true });
+      await setDoc(doc(db, "usuarios", uid), update, { merge: true });
+
+      
       await updateDoc(doc(db, "users", uid), update);
  
       // Atualiza local
